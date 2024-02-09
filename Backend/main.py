@@ -201,7 +201,7 @@ def generate():
         print(video_paths)
         combined_video_path = combine_videos(video_paths, temp_audio.duration, 5)
 
-        print(colored(f"[-] Next step: {final_video_path}", "green"))
+        print(colored(f"[-] Next step: {combined_video_path}", "green"))
         # Put everything together
         try:
             final_video_path = generate_video(combined_video_path, tts_path, subtitles_path)
