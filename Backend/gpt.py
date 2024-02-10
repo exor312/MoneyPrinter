@@ -58,7 +58,7 @@ def generate_response(prompt: str, ai_model: str) -> str:
 
     return response
 
-def generate_script(video_subject: str, paragraph_number: int, ai_model: str) -> str:
+def generate_script(video_subject: str, paragraph_number: int, ai_model: str, extra_prompt: str = "") -> str:
 
     """
     Generate a script for a video, depending on the subject of the video, the number of paragraphs, and the AI model.
@@ -86,7 +86,7 @@ def generate_script(video_subject: str, paragraph_number: int, ai_model: str) ->
     Generate a script for a video, depending on the subject of the video.
     Subject: {video_subject}
     Number of paragraphs: {paragraph_number}
-
+    {extra_prompt}
 
     The script is to be returned as a string with the specified number of paragraphs.
 

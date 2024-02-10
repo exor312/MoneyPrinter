@@ -17,8 +17,9 @@ const formModel = ref({
   aiModel: "g4f",
   extraPrompt: "",
 });
+const { formRef, rules } = useNaiveForm(formModel);
 
-const formRules = {
+rules.value = {
   videoSubject: {
     required: true,
     trigger: ["input", "blur"],
@@ -44,14 +45,14 @@ const options = [
 ];
 
 const isLoading = ref(false);
-const formRef = ref(null);
 
 /*----------  Step 2  ----------*/
 const videoModel = ref({
   script: "",
   search: "",
 });
-const videoRules = {
+const { reviewFormRef, rules: videoRules } = useNaiveForm(videoModel);
+videoRules.value = {
   script: {
     required: true,
     trigger: ["input", "blur"],
@@ -150,6 +151,7 @@ const HandleGenerateVideo = async () => {
       </n-tab-pane>
       <n-tab-pane name="review" tab="Review script">
         <n-form
+          ref="reviewFormRef"
           class="max-w-screen-md"
           :model="videoModel"
           :rules="videoRules"

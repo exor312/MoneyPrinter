@@ -62,13 +62,13 @@ def generate():
         songs_zip_url = data.get('zipUrl')
         
         # Download songs
-        if use_music:
-            # Downloads a ZIP file containing popular TikTok Songs
-            if songs_zip_url:
-                fetch_songs(songs_zip_url)
-            else:
-                # Default to a ZIP file containing popular TikTok Songs
-                fetch_songs("https://filebin.net/2avx134kdibc4c3q/drive-download-20240209T180019Z-001.zip")
+        # if use_music:
+        #     # Downloads a ZIP file containing popular TikTok Songs
+        #     if songs_zip_url:
+        #         fetch_songs(songs_zip_url)
+        #     else:
+        #         # Default to a ZIP file containing popular TikTok Songs
+        #         fetch_songs("https://filebin.net/2avx134kdibc4c3q/drive-download-20240209T180019Z-001.zip")
 
         # Print little information about the video which is to be generated
         print(colored("[Video to be generated]", "blue"))
@@ -321,6 +321,37 @@ def cancel():
 
     return jsonify({"status": "success", "message": "Cancelled video generation."})
 
+# Route to generate the script and return the video script
+@app.route("/api/script", methods=["POST"])
+def generate_script_only():
+    # Set generating to true
+    GENERATING = True
+
+    print(colored("[+] Received script request...", "green"))
+
+    data = request.get_json()
+    video_subject = data["videoSubject"]
+    extra_prompt = data["extraPrompt"]
+    ai_model = data["aiModel"]
+
+    script = generate_script(video_subject, 1, ai_model,extra_prompt)
+
+
+
+    search_terms = get_search_terms(
+            data["videoSubject"], AMOUNT_OF_STOCK_VIDEOS, script, ai_model
+        )
+
+    return jsonify(
+        {
+            "status": "success",
+            "message": "Script generated!",
+            "data": {
+                "script": script,
+                "search": search_terms
+            },
+        }
+    )
 
 if __name__ == "__main__":
 
